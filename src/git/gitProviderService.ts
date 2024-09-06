@@ -20,7 +20,7 @@ import { AccessDeniedError, CancellationError, ProviderNotFoundError } from '../
 import type { FeatureAccess, Features, PlusFeatures, RepoFeatureAccess } from '../features';
 import { getApplicablePromo } from '../plus/gk/account/promos';
 import type { Subscription } from '../plus/gk/account/subscription';
-import { isSubscriptionPaidPlan, SubscriptionPlanId } from '../plus/gk/account/subscription';
+import { isSubscriptionExpired, isSubscriptionPaidPlan, SubscriptionPlanId } from '../plus/gk/account/subscription';
 import type { SubscriptionChangeEvent } from '../plus/gk/account/subscriptionService';
 import type { HostingIntegration } from '../plus/integrations/integration';
 import type { RepoComparisonKey } from '../repositories';
@@ -746,7 +746,10 @@ export class GitProviderService implements Disposable {
 
 		const plan = subscription.plan.effective.id;
 		if (isSubscriptionPaidPlan(plan)) {
-			return { allowed: subscription.account?.verified !== false, subscription: { current: subscription } };
+			return {
+				allowed: subscription.account?.verified !== false && !isSubscriptionExpired(subscription),
+				subscription: { current: subscription },
+			};
 		}
 
 		if (feature === 'launchpad') {
