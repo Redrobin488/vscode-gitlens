@@ -24,6 +24,7 @@ const promos: Promo[] = [
 			SubscriptionState.FreePlusInTrial,
 			SubscriptionState.FreePlusTrialExpired,
 			SubscriptionState.FreePlusTrialReactivationEligible,
+			SubscriptionState.PaidExpired,
 		],
 		expiresOn: new Date('2024-09-27T06:59:00.000Z').getTime(),
 		commandTooltip: 'Launchpad Sale: Save 75% or more on GitLens Pro',

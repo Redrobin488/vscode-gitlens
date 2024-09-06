@@ -271,6 +271,20 @@ export class AccountContent extends LitElement {
 					</p>
 				`;
 
+			case SubscriptionState.PaidExpired:
+				return html`
+					<p>
+						Your ${getSubscriptionPlanName(this.planId)} plan has ended. Reactivate your
+						${getSubscriptionPlanName(this.planId)} account and experience all the new
+						<a href="${urls.proFeatures}">Pro features</a> and the full
+						<a href="${urls.platform}">GitKraken DevEx platform</a>
+					</p>
+					<button-container>
+						<gl-button full href="command:gitlens.plus.upgrade">Upgrade to Pro</gl-button>
+					</button-container>
+					${this.renderPromo(promo)} ${this.renderIncludesDevEx()}
+				`;
+
 			case SubscriptionState.VerificationRequired:
 				return html`
 					<p>You must verify your email before you can access Pro features.</p>
