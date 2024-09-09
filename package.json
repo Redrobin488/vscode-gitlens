@@ -17578,7 +17578,7 @@
 			{
 				"view": "gitlens.views.worktrees",
 				"contents": "[Upgrade to Pro](command:gitlens.plus.upgrade?%7B%22source%22%3A%22worktrees%22%7D)",
-				"when": "gitlens:plus:required && gitlens:plus:state == 4"
+				"when": "gitlens:plus:required && (gitlens:plus:state == 4 || gitlens:plus:state == 7)"
 			},
 			{
 				"view": "gitlens.views.worktrees",
@@ -17588,7 +17588,12 @@
 			{
 				"view": "gitlens.views.worktrees",
 				"contents": "Launchpad Sale: Save 75% or more on GitLens Pro",
-				"when": "gitlens:plus:required && gitlens:plus:state == 4 && gitlens:promo =~ /(launchpad|launchpad-extended)/"
+				"when": "gitlens:plus:required && (gitlens:plus:state == 4 || gitlens:plus:state == 7) && gitlens:promo =~ /(launchpad|launchpad-extended)/"
+			},
+			{
+				"view": "gitlens.views.worktrees",
+				"contents": "Your Pro license has expired. Please upgrade for full access to Worktrees and other Pro features.",
+				"when": "gitlens:plus:required && gitlens:plus:state == 7"
 			},
 			{
 				"view": "gitlens.views.worktrees",
@@ -17886,7 +17891,7 @@
 						"media": {
 							"markdown": "walkthroughs/welcome/pro-reactivate.md"
 						},
-						"when": "gitlens:plus:state == 6"
+						"when": "gitlens:plus:state == 7"
 					},
 					{
 						"id": "visualize",
