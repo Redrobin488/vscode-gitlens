@@ -47,6 +47,17 @@ export interface RepositoriesSortOptions {
 	orderBy?: RepositoriesSorting;
 }
 
+type GitBranchOptions = {
+	rename?: {
+		old: string;
+		new: string;
+	};
+	create?: {
+		name: string;
+		startRef: string;
+	};
+};
+
 const emptyArray = Object.freeze([]) as unknown as any[];
 
 const millisecondsPerMinute = 60 * 1000;
@@ -568,8 +579,17 @@ export class Repository implements Disposable {
 	}
 
 	@log()
-	branch(...args: string[]) {
-		void this.runTerminalCommand('branch', ...args);
+	branch(options: GitBranchOptions) {
+		const { rename, create } = options;
+		if (rename != null) {
+			return this.container.git.branch(this.uri, '-m', rename.old, rename.new);
+		}
+
+		if (create != null) {
+			return this.container.git.branch(this.uri, create.name, create.startRef);
+		}
+
+		throw new Error('Invalid branch options');
 	}
 
 	@log()

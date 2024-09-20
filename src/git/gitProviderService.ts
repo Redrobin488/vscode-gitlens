@@ -1326,6 +1326,12 @@ export class GitProviderService implements Disposable {
 	}
 
 	@log()
+	branch(repoPath: string | Uri, ...args: string[]): Promise<void> {
+		const { provider, path } = this.getProvider(repoPath);
+		return provider.branch(path, ...args);
+	}
+
+	@log()
 	checkout(
 		repoPath: string | Uri,
 		ref: string,

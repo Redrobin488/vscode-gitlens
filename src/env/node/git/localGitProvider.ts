@@ -1227,6 +1227,16 @@ export class LocalGitProvider implements GitProvider, Disposable {
 	}
 
 	@log()
+	async branch(repoPath: string, ...args: string[]): Promise<void> {
+		try {
+			await this.git.branch(repoPath, ...args);
+		} catch (ex) {
+			Logger.error(ex, getLogScope());
+			void showGenericErrorMessage(`Unable to create branch`);
+		}
+	}
+
+	@log()
 	async checkout(
 		repoPath: string,
 		ref: string,

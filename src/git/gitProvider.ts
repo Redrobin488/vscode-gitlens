@@ -167,6 +167,7 @@ export interface GitProvider extends Disposable {
 			stash?: boolean | 'prompt';
 		},
 	): Promise<void>;
+	branch(repoPath: string, ...args: string[]): Promise<void>;
 	checkout(
 		repoPath: string,
 		ref: string,
