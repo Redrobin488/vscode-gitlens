@@ -41,6 +41,7 @@ export interface SubscriptionPlan {
 	readonly startedOn: string;
 	readonly expiresOn?: string | undefined;
 	readonly organizationId: string | undefined;
+	readonly isTrial: boolean;
 }
 
 export interface SubscriptionAccount {
@@ -173,6 +174,7 @@ export function getSubscriptionPlan(
 	expiresOn?: Date,
 	cancelled: boolean = false,
 	nextTrialOptInDate?: string,
+	isTrial: boolean = false,
 ): SubscriptionPlan {
 	return {
 		id: id,
@@ -184,6 +186,7 @@ export function getSubscriptionPlan(
 		nextTrialOptInDate: nextTrialOptInDate,
 		startedOn: (startedOn ?? new Date()).toISOString(),
 		expiresOn: expiresOn != null ? expiresOn.toISOString() : undefined,
+		isTrial: isTrial,
 	};
 }
 
@@ -244,7 +247,7 @@ export function isSubscriptionExpired(subscription: Optional<Subscription, 'stat
 }
 
 export function isSubscriptionTrial(subscription: Optional<Subscription, 'state'>): boolean {
-	return subscription.plan.actual.id !== subscription.plan.effective.id;
+	return subscription.plan.effective.isTrial;
 }
 
 export function isSubscriptionInProTrial(subscription: Optional<Subscription, 'state'>): boolean {

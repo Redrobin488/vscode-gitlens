@@ -718,7 +718,7 @@ export class SubscriptionService implements Disposable {
 			...this._subscription,
 			plan: {
 				...this._subscription.plan,
-				effective: getSubscriptionPlan(SubscriptionPlanId.Pro, false, 0, undefined, startedOn, expiresOn),
+				effective: getSubscriptionPlan(SubscriptionPlanId.Pro, false, 0, undefined, startedOn, expiresOn, true),
 			},
 			previewTrial: previewTrial,
 		});
@@ -1233,6 +1233,7 @@ export class SubscriptionService implements Disposable {
 						undefined,
 						new Date(subscription.previewTrial.startedOn),
 						new Date(subscription.previewTrial.expiresOn),
+						true,
 					),
 				},
 			};
