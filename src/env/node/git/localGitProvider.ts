@@ -39,6 +39,7 @@ import {
 	WorktreeDeleteErrorReason,
 } from '../../../git/errors';
 import type {
+	GitBranchOptions,
 	GitCaches,
 	GitDir,
 	GitProvider,
@@ -1227,9 +1228,18 @@ export class LocalGitProvider implements GitProvider, Disposable {
 	}
 
 	@log()
-	async branch(repoPath: string, ...args: string[]): Promise<void> {
+	async branch(repoPath: string, options: GitBranchOptions): Promise<void> {
+		const { create = null, rename = null } = options;
 		try {
-			await this.git.branch(repoPath, ...args);
+			if (create != null) {
+				await this.git.branch(repoPath, create.name, create.startRef);
+			}
+
+			if (rename != null) {
+				await this.git.branch(repoPath, '-m', rename.new, rename.old);
+			}
+
+			throw new Error('Invalid branch options');
 		} catch (ex) {
 			Logger.error(ex, getLogScope());
 			void showGenericErrorMessage(`Unable to create branch`);

@@ -43,6 +43,7 @@ import { configuration } from '../system/vscode/configuration';
 import { setContext } from '../system/vscode/context';
 import { getBestPath } from '../system/vscode/path';
 import type {
+	GitBranchOptions,
 	GitCaches,
 	GitDir,
 	GitProvider,
@@ -1326,9 +1327,9 @@ export class GitProviderService implements Disposable {
 	}
 
 	@log()
-	branch(repoPath: string | Uri, ...args: string[]): Promise<void> {
+	branch(repoPath: string | Uri, options: GitBranchOptions): Promise<void> {
 		const { provider, path } = this.getProvider(repoPath);
-		return provider.branch(path, ...args);
+		return provider.branch(path, options);
 	}
 
 	@log()

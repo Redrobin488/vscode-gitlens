@@ -112,6 +112,17 @@ export interface RepositoryVisibilityInfo {
 	remotesHash?: string;
 }
 
+export type GitBranchOptions = {
+	rename?: {
+		old: string;
+		new: string;
+	};
+	create?: {
+		name: string;
+		startRef: string;
+	};
+};
+
 export interface GitProvider extends Disposable {
 	get onDidChange(): Event<void>;
 	get onDidChangeRepository(): Event<RepositoryChangeEvent>;
@@ -167,7 +178,7 @@ export interface GitProvider extends Disposable {
 			stash?: boolean | 'prompt';
 		},
 	): Promise<void>;
-	branch(repoPath: string, ...args: string[]): Promise<void>;
+	branch(repoPath: string, options: GitBranchOptions): Promise<void>;
 	checkout(
 		repoPath: string,
 		ref: string,

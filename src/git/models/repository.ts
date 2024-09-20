@@ -24,7 +24,13 @@ import { basename, normalizePath } from '../../system/path';
 import { sortCompare } from '../../system/string';
 import { executeActionCommand } from '../../system/vscode/command';
 import { configuration } from '../../system/vscode/configuration';
-import type { GitDir, GitProviderDescriptor, GitRepositoryCaches, PagingOptions } from '../gitProvider';
+import type {
+	GitBranchOptions,
+	GitDir,
+	GitProviderDescriptor,
+	GitRepositoryCaches,
+	PagingOptions,
+} from '../gitProvider';
 import type { RemoteProvider } from '../remotes/remoteProvider';
 import type { GitSearch } from '../search';
 import type { BranchSortOptions, GitBranch } from './branch';
@@ -46,17 +52,6 @@ import type { GitWorktree } from './worktree';
 export interface RepositoriesSortOptions {
 	orderBy?: RepositoriesSorting;
 }
-
-type GitBranchOptions = {
-	rename?: {
-		old: string;
-		new: string;
-	};
-	create?: {
-		name: string;
-		startRef: string;
-	};
-};
 
 const emptyArray = Object.freeze([]) as unknown as any[];
 
@@ -580,16 +575,7 @@ export class Repository implements Disposable {
 
 	@log()
 	branch(options: GitBranchOptions) {
-		const { rename, create } = options;
-		if (rename != null) {
-			return this.container.git.branch(this.uri, '-m', rename.old, rename.new);
-		}
-
-		if (create != null) {
-			return this.container.git.branch(this.uri, create.name, create.startRef);
-		}
-
-		throw new Error('Invalid branch options');
+		return this.container.git.branch(this.uri, options);
 	}
 
 	@log()
